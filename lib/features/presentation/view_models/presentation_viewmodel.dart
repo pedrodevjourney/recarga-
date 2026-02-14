@@ -24,6 +24,9 @@ class PresentationViewModel extends ChangeNotifier {
   /// Palavras que alternam com efeito rewrite no meio da frase.
   static const List<String> heroWords = ['encontrar', 'agendar', 'carregar'];
 
+  static const String subtitle =
+      'Seu próximo carregamento, a um toque de distância.';
+
   void onLoginPressed() => _onLoginPressed?.call();
   void onSignUpPressed() => _onSignUpPressed?.call();
 }

@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
+import '../../../core/theme/app_theme.dart';
 import '../view_models/presentation_viewmodel.dart';
 
 class PresentationScreen extends StatelessWidget {
@@ -51,7 +52,7 @@ class PresentationScreen extends StatelessWidget {
                                     style: textTheme.headlineMedium?.copyWith(
                                       color: colorScheme.onPrimary,
                                       fontWeight: FontWeight.w500,
-                                      fontFamily: 'Bungee',
+                                      fontFamily: AppFonts.display,
                                       height: 1,
                                     ),
                                   ),
@@ -78,7 +79,7 @@ class PresentationScreen extends StatelessWidget {
                               color: colorScheme.onPrimary,
                               fontWeight: FontWeight.w500,
                               fontSize: 34,
-                              fontFamily: 'Bungee',
+                              fontFamily: AppFonts.display,
                             ),
                             textAlign: TextAlign.start,
                             child: Wrap(
@@ -97,7 +98,7 @@ class PresentationScreen extends StatelessWidget {
                                                 color: colorScheme.onPrimary,
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 34,
-                                                fontFamily: 'Bungee',
+                                                fontFamily: AppFonts.display,
                                                 height: 1.2,
                                               ),
                                           speed: const Duration(
@@ -142,11 +143,11 @@ class PresentationScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
                             child: Text(
-                              'Seu próximo carregamento, a um toque de distância.',
+                              PresentationViewModel.subtitle,
                               style: textTheme.titleMedium?.copyWith(
                                 color: colorScheme.onSurface,
                                 fontSize: 18,
-                                fontFamily: 'OpenSans',
+                                fontFamily: AppFonts.body,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
