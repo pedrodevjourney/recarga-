@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'splash_viewmodel.dart';
+import '../view_models/splash_viewmodel.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key, required this.viewModel});
@@ -23,8 +23,6 @@ class SplashScreen extends StatelessWidget {
                 child: Image.asset(
                   SplashViewModel.logoAssetPath,
                   fit: BoxFit.contain,
-                  errorBuilder: (_, __, ___) =>
-                      const Icon(Icons.image_not_supported),
                 ),
               ),
             ),

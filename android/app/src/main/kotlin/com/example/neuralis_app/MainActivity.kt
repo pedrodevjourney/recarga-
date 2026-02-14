@@ -1,4 +1,4 @@
-package com.example.neuralis_app
+package com.example.recarga
 
 import io.flutter.embedding.android.FlutterActivity
 

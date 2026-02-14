@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 
-/// Tema do app. Usar em [MaterialApp.theme].
 abstract final class AppTheme {
   AppTheme._();
 
@@ -10,8 +9,8 @@ abstract final class AppTheme {
     colorScheme: ColorScheme.light(
       primary: AppColors.primary,
       onPrimary: AppColors.onPrimary,
-      surface: AppColors.surface,
-      onSurface: AppColors.secondary,
+      surface: AppColors.secondary,
+      onSurface: AppColors.onPrimary,
     ),
     useMaterial3: true,
   );
