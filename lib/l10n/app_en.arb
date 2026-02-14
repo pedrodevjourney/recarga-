@@ -1,0 +1,51 @@
+{
+  "appTitle": "Recarga+",
+  "@appTitle": {
+    "description": "Application title"
+  },
+
+  "presentationHeroPrefix": "The smartest way to ",
+  "@presentationHeroPrefix": {
+    "description": "Start of hero sentence before animated word"
+  },
+  "presentationHeroSuffix": "your electric car.",
+  "@presentationHeroSuffix": {
+    "description": "End of hero sentence after animated word"
+  },
+  "presentationHeroWordFind": "find",
+  "presentationHeroWordSchedule": "schedule",
+  "presentationHeroWordCharge": "charge",
+  "presentationSubtitle": "Your next charge, one tap away.",
+  "@presentationSubtitle": {
+    "description": "Presentation screen subtitle"
+  },
+  "presentationLoginButton": "Log in",
+  "presentationSignUpButton": "Sign up",
+
+  "loginScreenTitle": "Log in",
+  "loginHeadline": "Welcome back",
+  "loginSubtext": "Log in to schedule charges and manage your electric car.",
+  "loginEmailLabel": "Email",
+  "loginEmailHint": "example@email.com",
+  "loginPasswordLabel": "Password",
+  "loginPasswordHint": "Enter your password",
+  "loginForgotPassword": "Forgot your password?",
+  "loginButtonLabel": "Log in",
+  "loginOrContinueWith": "or continue with",
+  "loginSignInWithGoogle": "Continue with Google",
+  "loginSignInWithApple": "Continue with Apple",
+  "loginNoAccountPrompt": "Don't have an account? ",
+  "loginSignUpLink": "Sign up",
+
+  "signUpScreenTitle": "Sign up",
+  "signUpHeadline": "Create your account",
+  "signUpSubtext": "Built for electric car owners. Schedule charges and manage your routine in the palm of your hand.",
+  "signUpFullNameLabel": "Full name",
+  "signUpFullNameHint": "Enter your name",
+  "signUpEmailLabel": "Email",
+  "signUpEmailHint": "example@email.com",
+  "signUpPasswordLabel": "Password",
+  "signUpPasswordHint": "At least 8 characters",
+  "signUpTermsCheckbox": "I agree to the terms of use and privacy policy.",
+  "signUpSubmitButton": "Sign up"
+}

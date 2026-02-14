@@ -1,9 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
-import '../../../core/theme/app_theme.dart';
-import '../view_models/presentation_viewmodel.dart';
+import 'package:recarga/core/theme/app_theme.dart';
+import 'package:recarga/features/presentation/view_models/presentation_viewmodel.dart';
+import 'package:recarga/l10n/app_localizations.dart';
 
 class PresentationScreen extends StatelessWidget {
   const PresentationScreen({super.key, required this.viewModel});
@@ -12,8 +12,14 @@ class PresentationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final heroWords = [
+      l10n.presentationHeroWordFind,
+      l10n.presentationHeroWordSchedule,
+      l10n.presentationHeroWordCharge,
+    ];
 
     return ListenableBuilder(
       listenable: viewModel,
@@ -87,9 +93,9 @@ class PresentationScreen extends StatelessWidget {
                               crossAxisAlignment: WrapCrossAlignment.start,
                               runSpacing: 6,
                               children: [
-                                Text(PresentationViewModel.heroSentencePrefix),
+                                Text(l10n.presentationHeroPrefix),
                                 AnimatedTextKit(
-                                  animatedTexts: PresentationViewModel.heroWords
+                                  animatedTexts: heroWords
                                       .map(
                                         (word) => TypewriterAnimatedText(
                                           word,
@@ -113,7 +119,7 @@ class PresentationScreen extends StatelessWidget {
                                   pause: const Duration(milliseconds: 2800),
                                 ),
                                 const Text(' '),
-                                Text(PresentationViewModel.heroSentenceSuffix),
+                                Text(l10n.presentationHeroSuffix),
                               ],
                             ),
                           )
@@ -143,7 +149,7 @@ class PresentationScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
                             child: Text(
-                              PresentationViewModel.subtitle,
+                              l10n.presentationSubtitle,
                               style: textTheme.titleMedium?.copyWith(
                                 color: colorScheme.onSurface,
                                 fontSize: 18,
@@ -183,7 +189,7 @@ class PresentationScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: Text(
-                                    PresentationViewModel.loginButtonLabel,
+                                    l10n.presentationLoginButton,
                                     style: textTheme.titleMedium?.copyWith(
                                       color: colorScheme.onPrimary,
                                       fontWeight: FontWeight.w600,
@@ -219,7 +225,7 @@ class PresentationScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: Text(
-                                    PresentationViewModel.signUpButtonLabel,
+                                    l10n.presentationSignUpButton,
                                     style: textTheme.titleMedium?.copyWith(
                                       color: colorScheme.onSurface,
                                       fontWeight: FontWeight.w600,

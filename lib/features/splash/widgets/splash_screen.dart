@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../view_models/splash_viewmodel.dart';
+import 'package:recarga/features/splash/view_models/splash_viewmodel.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key, required this.viewModel});

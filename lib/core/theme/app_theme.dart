@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recarga/core/theme/app_colors.dart';
 
-import 'app_colors.dart';
-
-/// Nomes das fontes declaradas no pubspec (single source of truth para uso na UI).
 abstract final class AppFonts {
   AppFonts._();
   static const String display = 'Bungee';

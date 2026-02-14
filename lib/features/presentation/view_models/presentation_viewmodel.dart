@@ -10,23 +10,6 @@ class PresentationViewModel extends ChangeNotifier {
   final VoidCallback? _onLoginPressed;
   final VoidCallback? _onSignUpPressed;
 
-  static const String loginButtonLabel = 'Entrar';
-
-  static const String signUpButtonLabel = 'Fazer Cadastro';
-
-  /// Início da frase hero (antes da palavra animada).
-  static const String heroSentencePrefix = 'A forma mais inteligente de ';
-
-  /// Fim da frase hero (depois da palavra animada). Sem espaço à esquerda
-  /// para que, ao quebrar linha, "seu" alinhe com o início da primeira linha.
-  static const String heroSentenceSuffix = 'seu carro elétrico.';
-
-  /// Palavras que alternam com efeito rewrite no meio da frase.
-  static const List<String> heroWords = ['encontrar', 'agendar', 'carregar'];
-
-  static const String subtitle =
-      'Seu próximo carregamento, a um toque de distância.';
-
   void onLoginPressed() => _onLoginPressed?.call();
   void onSignUpPressed() => _onSignUpPressed?.call();
 }

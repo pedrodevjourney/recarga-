@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../../../core/theme/app_theme.dart';
-import '../view_models/sign_up_viewmodel.dart';
+import 'package:recarga/core/theme/app_theme.dart';
+import 'package:recarga/core/widgets/labeled_field.dart';
+import 'package:recarga/features/sign_up/view_models/sign_up_viewmodel.dart';
+import 'package:recarga/l10n/app_localizations.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key, required this.viewModel});
@@ -30,7 +31,7 @@ class SignUpScreen extends StatelessWidget {
               onPressed: viewModel.onBackPressed,
             ),
             title: Text(
-              SignUpViewModel.screenTitle,
+              AppLocalizations.of(context)!.signUpScreenTitle,
               style: textTheme.titleLarge?.copyWith(
                 color: colorScheme.onSurface,
                 fontWeight: FontWeight.w600,
@@ -45,111 +46,16 @@ class SignUpScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 16),
-                  Text(
-                    SignUpViewModel.headline,
-                    style: textTheme.headlineSmall?.copyWith(
-                      color: colorScheme.onSurface,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.3,
-                      fontFamily: AppFonts.display,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    SignUpViewModel.subtext,
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurface.withValues(alpha: 0.75),
-                      height: 1.4,
-                      fontFamily: AppFonts.subtitle,
-                    ),
-                  ),
+                  const _SignUpHeader(),
                   const SizedBox(height: 28),
-                  _LabeledField(
-                    label: SignUpViewModel.fullNameLabel,
-                    hint: SignUpViewModel.fullNameHint,
-                    textInputAction: TextInputAction.next,
-                  ),
+                  const _SignUpFormFields(),
                   const SizedBox(height: 20),
-                  _LabeledField(
-                    label: SignUpViewModel.emailLabel,
-                    hint: SignUpViewModel.emailHint,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                  ),
-                  const SizedBox(height: 20),
-                  _LabeledField(
-                    label: SignUpViewModel.passwordLabel,
-                    hint: SignUpViewModel.passwordHint,
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: Checkbox(
-                          value: viewModel.agreeToTerms,
-                          onChanged: (value) =>
-                              viewModel.setAgreeToTerms(value ?? false),
-                          activeColor: colorScheme.primary,
-                          fillColor: WidgetStateProperty.resolveWith((states) {
-                            if (states.contains(WidgetState.selected)) {
-                              return colorScheme.primary;
-                            }
-                            return Colors.transparent;
-                          }),
-                          side: BorderSide(
-                            color: colorScheme.primary.withValues(alpha: 0.7),
-                          ),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 2),
-                          child: GestureDetector(
-                            onTap: () => viewModel.setAgreeToTerms(
-                              !viewModel.agreeToTerms,
-                            ),
-                            child: Text(
-                              SignUpViewModel.termsCheckboxLabel,
-                              style: textTheme.bodySmall?.copyWith(
-                                color: colorScheme.onSurface.withValues(
-                                  alpha: 0.85,
-                                ),
-                                fontFamily: AppFonts.body,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  _TermsCheckbox(
+                    value: viewModel.agreeToTerms,
+                    onChanged: viewModel.setAgreeToTerms,
                   ),
                   const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.primary,
-                      foregroundColor: colorScheme.onPrimary,
-                      minimumSize: const Size.fromHeight(52),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: Text(
-                      SignUpViewModel.submitButtonLabel,
-                      style: textTheme.titleMedium?.copyWith(
-                        color: colorScheme.onPrimary,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: AppFonts.body,
-                      ),
-                    ),
-                  ),
+                  const _SignUpSubmitButton(),
                 ],
               ),
             ),
@@ -160,88 +66,148 @@ class SignUpScreen extends StatelessWidget {
   }
 }
 
-class _LabeledField extends StatelessWidget {
-  const _LabeledField({
-    required this.label,
-    required this.hint,
-    this.keyboardType,
-    this.obscureText = false,
-    this.textInputAction = TextInputAction.next,
-  });
-
-  final String label;
-  final String hint;
-  final TextInputType? keyboardType;
-  final bool obscureText;
-  final TextInputAction textInputAction;
+class _SignUpHeader extends StatelessWidget {
+  const _SignUpHeader();
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        _FieldLabel(label: label),
-        const SizedBox(height: 6),
-        TextFormField(
-          style: TextStyle(
+        Text(
+          AppLocalizations.of(context)!.signUpHeadline,
+          style: textTheme.headlineSmall?.copyWith(
             color: colorScheme.onSurface,
-            fontFamily: AppFonts.body,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.3,
+            fontFamily: AppFonts.display,
           ),
-          decoration: _inputDecoration(context, hint: hint),
-          keyboardType: keyboardType,
-          obscureText: obscureText,
-          textInputAction: textInputAction,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          AppLocalizations.of(context)!.signUpSubtext,
+          style: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurface.withValues(alpha: 0.95),
+            height: 1.4,
+            fontFamily: AppFonts.subtitle,
+          ),
         ),
       ],
     );
   }
+}
 
-  static InputDecoration _inputDecoration(
-    BuildContext context, {
-    required String hint,
-  }) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return InputDecoration(
-      hintText: hint,
-      filled: true,
-      fillColor: colorScheme.surface,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(
-          color: colorScheme.primary.withValues(alpha: 0.5),
+class _SignUpFormFields extends StatelessWidget {
+  const _SignUpFormFields();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        LabeledField(
+          label: AppLocalizations.of(context)!.signUpFullNameLabel,
+          hint: AppLocalizations.of(context)!.signUpFullNameHint,
+          textInputAction: TextInputAction.next,
         ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: colorScheme.primary, width: 1.5),
-      ),
-      hintStyle: TextStyle(
-        color: colorScheme.onSurface.withValues(alpha: 0.5),
-        fontFamily: AppFonts.body,
-      ),
-      floatingLabelBehavior: FloatingLabelBehavior.never,
+        const SizedBox(height: 20),
+        LabeledField(
+          label: AppLocalizations.of(context)!.signUpEmailLabel,
+          hint: AppLocalizations.of(context)!.signUpEmailHint,
+          keyboardType: TextInputType.emailAddress,
+          textInputAction: TextInputAction.next,
+        ),
+        const SizedBox(height: 20),
+        LabeledField(
+          label: AppLocalizations.of(context)!.signUpPasswordLabel,
+          hint: AppLocalizations.of(context)!.signUpPasswordHint,
+          obscureText: true,
+          textInputAction: TextInputAction.done,
+        ),
+      ],
     );
   }
 }
 
-class _FieldLabel extends StatelessWidget {
-  const _FieldLabel({required this.label});
+class _TermsCheckbox extends StatelessWidget {
+  const _TermsCheckbox({required this.value, required this.onChanged});
 
-  final String label;
+  final bool value;
+  final ValueChanged<bool> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Text(
-      label,
-      style: theme.textTheme.bodySmall?.copyWith(
-        color: theme.colorScheme.onSurface,
-        fontWeight: FontWeight.bold,
-        fontFamily: AppFonts.body,
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 24,
+          height: 24,
+          child: Checkbox(
+            value: value,
+            onChanged: (v) => onChanged(v ?? false),
+            activeColor: colorScheme.primary,
+            fillColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return colorScheme.primary;
+              }
+              return Colors.transparent;
+            }),
+            side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.9)),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: GestureDetector(
+              onTap: () => onChanged(!value),
+              child: Text(
+                AppLocalizations.of(context)!.signUpTermsCheckbox,
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurface.withValues(alpha: 0.9),
+                  fontFamily: AppFonts.body,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SignUpSubmitButton extends StatelessWidget {
+  const _SignUpSubmitButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+        backgroundColor: colorScheme.primary,
+        foregroundColor: colorScheme.onPrimary,
+        minimumSize: const Size.fromHeight(52),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+      child: Text(
+        AppLocalizations.of(context)!.signUpSubmitButton,
+        style: textTheme.titleMedium?.copyWith(
+          color: colorScheme.onPrimary,
+          fontWeight: FontWeight.w600,
+          fontFamily: AppFonts.body,
+        ),
       ),
     );
   }
