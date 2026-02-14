@@ -25,16 +25,44 @@ class PresentationScreen extends StatelessWidget {
                 child: Container(
                   color: colorScheme.primary,
                   alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  padding: const EdgeInsets.fromLTRB(32, 40, 32, 32),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Transform.translate(
+                        offset: const Offset(-32, 0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/recarga_branco_sem_bg.png',
+                              height: 100,
+                              width: 100,
+                              filterQuality: FilterQuality.high,
+                            ),
+                            Transform.translate(
+                              offset: const Offset(-25, 0),
+                              child: Text(
+                                'ecarga+',
+                                style: textTheme.headlineMedium?.copyWith(
+                                  color: colorScheme.onPrimary,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Bungee',
+                                  height: 1,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                       DefaultTextStyle(
                         style: textTheme.headlineLarge!.copyWith(
                           color: colorScheme.onPrimary,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                           fontSize: 34,
                           fontFamily: 'Bungee',
                         ),
@@ -53,7 +81,7 @@ class PresentationScreen extends StatelessWidget {
                                       textStyle: textTheme.headlineLarge!
                                           .copyWith(
                                             color: colorScheme.onPrimary,
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight: FontWeight.w500,
                                             fontSize: 34,
                                             fontFamily: 'Bungee',
                                             height: 1.2,
@@ -80,6 +108,21 @@ class PresentationScreen extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+                        child: Text(
+                          'Seu próximo carregamento, a um toque de distância.',
+                          style: textTheme.titleMedium?.copyWith(
+                            color: colorScheme.onSurface,
+                            fontSize: 18,
+                            fontFamily: 'OpenSans',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
                     const Spacer(),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
