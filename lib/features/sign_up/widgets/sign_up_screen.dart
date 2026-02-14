@@ -60,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
                     style: textTheme.bodyMedium?.copyWith(
                       color: colorScheme.onSurface.withValues(alpha: 0.75),
                       height: 1.4,
-                      fontFamily: AppFonts.body,
+                      fontFamily: AppFonts.subtitle,
                     ),
                   ),
                   const SizedBox(height: 28),

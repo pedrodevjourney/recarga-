@@ -7,6 +7,7 @@ abstract final class AppFonts {
   AppFonts._();
   static const String display = 'Bungee';
   static const String body = 'OpenSans';
+  static const String subtitle = 'Saira';
 }
 
 abstract final class AppTheme {
@@ -20,8 +21,6 @@ abstract final class AppTheme {
       onSurface: AppColors.onPrimary,
     ),
     useMaterial3: true,
-    textTheme: ThemeData.light()
-        .textTheme
-        .apply(fontFamily: AppFonts.body),
+    textTheme: ThemeData.light().textTheme.apply(fontFamily: AppFonts.body),
   );
 }
