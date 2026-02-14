@@ -112,4 +112,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signUpSubmitButton => 'Sign up';
+
+  @override
+  String get genericRequestError => 'Something went wrong. Try again.';
+
+  @override
+  String get loginFillFields => 'Enter email and password.';
+
+  @override
+  String get signUpAcceptTerms => 'You must accept the terms to continue.';
+
+  @override
+  String get signUpFillFields => 'Fill in all fields.';
 }

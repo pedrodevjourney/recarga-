@@ -113,4 +113,16 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get signUpSubmitButton => 'Cadastrar';
+
+  @override
+  String get genericRequestError => 'Algo deu errado. Tente novamente.';
+
+  @override
+  String get loginFillFields => 'Preencha e-mail e senha.';
+
+  @override
+  String get signUpAcceptTerms => 'Aceite os termos para continuar.';
+
+  @override
+  String get signUpFillFields => 'Preencha todos os campos.';
 }

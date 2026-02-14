@@ -34,5 +34,9 @@
   "signUpPasswordLabel": "Senha",
   "signUpPasswordHint": "Mínimo 8 caracteres",
   "signUpTermsCheckbox": "Concordo com os termos de uso e política de privacidade.",
-  "signUpSubmitButton": "Cadastrar"
+  "signUpSubmitButton": "Cadastrar",
+  "genericRequestError": "Algo deu errado. Tente novamente.",
+  "loginFillFields": "Preencha e-mail e senha.",
+  "signUpAcceptTerms": "Aceite os termos para continuar.",
+  "signUpFillFields": "Preencha todos os campos."
 }

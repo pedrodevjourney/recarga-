@@ -303,6 +303,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign up'**
   String get signUpSubmitButton;
+
+  /// No description provided for @genericRequestError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again.'**
+  String get genericRequestError;
+
+  /// No description provided for @loginFillFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter email and password.'**
+  String get loginFillFields;
+
+  /// No description provided for @signUpAcceptTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'You must accept the terms to continue.'**
+  String get signUpAcceptTerms;
+
+  /// No description provided for @signUpFillFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in all fields.'**
+  String get signUpFillFields;
 }
 
 class _AppLocalizationsDelegate

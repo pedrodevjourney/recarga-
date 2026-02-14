@@ -1,9 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:recarga/core/config/api_config.dart';
+import 'package:recarga/features/login/data/login_repository.dart';
 import 'package:recarga/features/login/view_models/login_viewmodel.dart';
 import 'package:recarga/features/login/widgets/login_screen.dart';
 import 'package:recarga/features/presentation/view_models/presentation_viewmodel.dart';
 import 'package:recarga/features/presentation/widgets/presentation_screen.dart';
+import 'package:recarga/features/sign_up/data/register_repository.dart';
 import 'package:recarga/features/sign_up/view_models/sign_up_viewmodel.dart';
 import 'package:recarga/features/sign_up/widgets/sign_up_screen.dart';
 import 'package:recarga/features/splash/view_models/splash_viewmodel.dart';
@@ -45,11 +49,14 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.login,
       builder: (BuildContext context, GoRouterState state) {
+        final dio = Dio(BaseOptions(baseUrl: ApiConfig.baseUrl));
+        final loginRepository = LoginRepository(dio);
         return LoginScreen(
           viewModel: LoginViewModel(
+            loginRepository: loginRepository,
             onBackPressed: () => context.pop(),
             onForgotPassword: () {},
-            onLoginPressed: () {},
+            onLoginSuccess: () => context.pop(),
             onSignInWithGoogle: () {},
             onSignInWithApple: () {},
             onSignUpPressed: () => context.push(AppRoutes.signUp),
@@ -60,8 +67,14 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.signUp,
       builder: (BuildContext context, GoRouterState state) {
+        final dio = Dio(BaseOptions(baseUrl: ApiConfig.baseUrl));
+        final registerRepository = RegisterRepository(dio);
         return SignUpScreen(
-          viewModel: SignUpViewModel(onBackPressed: () => context.pop()),
+          viewModel: SignUpViewModel(
+            registerRepository: registerRepository,
+            onBackPressed: () => context.pop(),
+            onRegisterSuccess: () => context.pop(),
+          ),
         );
       },
     ),

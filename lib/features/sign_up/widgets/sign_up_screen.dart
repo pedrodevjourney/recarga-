@@ -4,15 +4,42 @@ import 'package:recarga/core/widgets/labeled_field.dart';
 import 'package:recarga/features/sign_up/view_models/sign_up_viewmodel.dart';
 import 'package:recarga/l10n/app_localizations.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key, required this.viewModel});
 
   final SignUpViewModel viewModel;
 
   @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  late final TextEditingController _fullNameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _passwordController;
+  String? _validationError;
+
+  @override
+  void initState() {
+    super.initState();
+    _fullNameController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final viewModel = widget.viewModel;
 
     return ListenableBuilder(
       listenable: viewModel,
@@ -48,14 +75,54 @@ class SignUpScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   const _SignUpHeader(),
                   const SizedBox(height: 28),
-                  const _SignUpFormFields(),
+                  _SignUpFormFields(
+                    fullNameController: _fullNameController,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                  ),
+                  if (_validationError != null ||
+                      viewModel.errorMessage != null) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      _validationError ??
+                          (viewModel.errorMessage!.isEmpty
+                              ? AppLocalizations.of(context)!.genericRequestError
+                              : viewModel.errorMessage!),
+                      style: textTheme.bodySmall?.copyWith(
+                        color: colorScheme.error,
+                        fontFamily: AppFonts.body,
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 20),
                   _TermsCheckbox(
                     value: viewModel.agreeToTerms,
                     onChanged: viewModel.setAgreeToTerms,
                   ),
                   const SizedBox(height: 24),
-                  const _SignUpSubmitButton(),
+                  _SignUpSubmitButton(
+                    isLoading: viewModel.isLoading,
+                    onPressed: () {
+                      final l10n = AppLocalizations.of(context)!;
+                      final name = _fullNameController.text.trim();
+                      final email = _emailController.text.trim();
+                      final password = _passwordController.text;
+                      if (!viewModel.agreeToTerms) {
+                        setState(() => _validationError = l10n.signUpAcceptTerms);
+                        return;
+                      }
+                      if (name.isEmpty || email.isEmpty || password.isEmpty) {
+                        setState(() => _validationError = l10n.signUpFillFields);
+                        return;
+                      }
+                      setState(() => _validationError = null);
+                      viewModel.register(
+                        _fullNameController.text,
+                        _emailController.text,
+                        password,
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -102,7 +169,15 @@ class _SignUpHeader extends StatelessWidget {
 }
 
 class _SignUpFormFields extends StatelessWidget {
-  const _SignUpFormFields();
+  const _SignUpFormFields({
+    required this.fullNameController,
+    required this.emailController,
+    required this.passwordController,
+  });
+
+  final TextEditingController fullNameController;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
 
   @override
   Widget build(BuildContext context) {
@@ -110,12 +185,14 @@ class _SignUpFormFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         LabeledField(
+          controller: fullNameController,
           label: AppLocalizations.of(context)!.signUpFullNameLabel,
           hint: AppLocalizations.of(context)!.signUpFullNameHint,
           textInputAction: TextInputAction.next,
         ),
         const SizedBox(height: 20),
         LabeledField(
+          controller: emailController,
           label: AppLocalizations.of(context)!.signUpEmailLabel,
           hint: AppLocalizations.of(context)!.signUpEmailHint,
           keyboardType: TextInputType.emailAddress,
@@ -123,6 +200,7 @@ class _SignUpFormFields extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         LabeledField(
+          controller: passwordController,
           label: AppLocalizations.of(context)!.signUpPasswordLabel,
           hint: AppLocalizations.of(context)!.signUpPasswordHint,
           obscureText: true,
@@ -186,7 +264,13 @@ class _TermsCheckbox extends StatelessWidget {
 }
 
 class _SignUpSubmitButton extends StatelessWidget {
-  const _SignUpSubmitButton();
+  const _SignUpSubmitButton({
+    required this.isLoading,
+    required this.onPressed,
+  });
+
+  final bool isLoading;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -194,21 +278,32 @@ class _SignUpSubmitButton extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: colorScheme.primary,
         foregroundColor: colorScheme.onPrimary,
+        disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.6),
+        disabledForegroundColor: colorScheme.onPrimary,
         minimumSize: const Size.fromHeight(52),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
-      child: Text(
-        AppLocalizations.of(context)!.signUpSubmitButton,
-        style: textTheme.titleMedium?.copyWith(
-          color: colorScheme.onPrimary,
-          fontWeight: FontWeight.w600,
-          fontFamily: AppFonts.body,
-        ),
-      ),
+      child: isLoading
+          ? SizedBox(
+              height: 24,
+              width: 24,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(colorScheme.onPrimary),
+              ),
+            )
+          : Text(
+              AppLocalizations.of(context)!.signUpSubmitButton,
+              style: textTheme.titleMedium?.copyWith(
+                color: colorScheme.onPrimary,
+                fontWeight: FontWeight.w600,
+                fontFamily: AppFonts.body,
+              ),
+            ),
     );
   }
 }

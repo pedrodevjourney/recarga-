@@ -7,6 +7,7 @@ class LabeledField extends StatelessWidget {
     super.key,
     required this.label,
     required this.hint,
+    this.controller,
     this.keyboardType,
     this.obscureText = false,
     this.textInputAction = TextInputAction.next,
@@ -14,6 +15,7 @@ class LabeledField extends StatelessWidget {
 
   final String label;
   final String hint;
+  final TextEditingController? controller;
   final TextInputType? keyboardType;
   final bool obscureText;
   final TextInputAction textInputAction;
@@ -29,6 +31,7 @@ class LabeledField extends StatelessWidget {
         _FieldLabel(label: label),
         const SizedBox(height: 6),
         TextFormField(
+          controller: controller,
           style: TextStyle(
             color: colorScheme.onSurface,
             fontFamily: AppFonts.body,

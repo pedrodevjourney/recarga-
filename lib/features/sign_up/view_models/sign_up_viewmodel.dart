@@ -1,13 +1,33 @@
+import 'package:dio/dio.dart';
+
 import 'package:flutter/foundation.dart';
+import 'package:recarga/core/config/api_config.dart';
+import 'package:recarga/features/sign_up/data/register_repository.dart';
+import 'package:recarga/features/sign_up/data/register_request.dart';
 
 class SignUpViewModel extends ChangeNotifier {
-  SignUpViewModel({VoidCallback? onBackPressed})
-    : _onBackPressed = onBackPressed;
+  SignUpViewModel({
+    RegisterRepository? registerRepository,
+    VoidCallback? onBackPressed,
+    VoidCallback? onRegisterSuccess,
+  }) : _registerRepository =
+           registerRepository ??
+           RegisterRepository(Dio(BaseOptions(baseUrl: ApiConfig.baseUrl))),
+       _onBackPressed = onBackPressed,
+       _onRegisterSuccess = onRegisterSuccess;
 
+  final RegisterRepository _registerRepository;
   final VoidCallback? _onBackPressed;
+  final VoidCallback? _onRegisterSuccess;
 
   bool _agreeToTerms = false;
   bool get agreeToTerms => _agreeToTerms;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
 
   void setAgreeToTerms(bool value) {
     if (_agreeToTerms == value) return;
@@ -16,4 +36,28 @@ class SignUpViewModel extends ChangeNotifier {
   }
 
   void onBackPressed() => _onBackPressed?.call();
+
+  Future<void> register(String fullName, String email, String password) async {
+    _errorMessage = null;
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      await _registerRepository.register(
+        RegisterRequest(
+          fullName: fullName.trim(),
+          email: email.trim(),
+          password: password,
+        ),
+      );
+      _isLoading = false;
+      _errorMessage = null;
+      notifyListeners();
+      _onRegisterSuccess?.call();
+    } on RegisterFailure catch (e) {
+      _isLoading = false;
+      _errorMessage = e.message;
+      notifyListeners();
+    }
+  }
 }
