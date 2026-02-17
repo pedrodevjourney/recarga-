@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
-
 import 'package:flutter/foundation.dart';
-import 'package:recarga/core/config/api_config.dart';
+import 'package:recarga/core/network/repository_providers.dart';
 import 'package:recarga/features/login/data/login_repository.dart';
 import 'package:recarga/features/login/data/login_request.dart';
 
@@ -14,9 +12,7 @@ class LoginViewModel extends ChangeNotifier {
     VoidCallback? onSignInWithGoogle,
     VoidCallback? onSignInWithApple,
     VoidCallback? onSignUpPressed,
-  }) : _loginRepository =
-           loginRepository ??
-           LoginRepository(Dio(BaseOptions(baseUrl: ApiConfig.baseUrl))),
+  }) : _loginRepository = loginRepository ?? getLoginRepository(),
        _onBackPressed = onBackPressed,
        _onForgotPassword = onForgotPassword,
        _onLoginSuccess = onLoginSuccess,

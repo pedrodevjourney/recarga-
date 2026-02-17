@@ -1,13 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:recarga/core/config/api_config.dart';
-import 'package:recarga/features/login/data/login_repository.dart';
+import 'package:recarga/core/network/repository_providers.dart';
 import 'package:recarga/features/login/view_models/login_viewmodel.dart';
 import 'package:recarga/features/login/widgets/login_screen.dart';
 import 'package:recarga/features/presentation/view_models/presentation_viewmodel.dart';
 import 'package:recarga/features/presentation/widgets/presentation_screen.dart';
-import 'package:recarga/features/sign_up/data/register_repository.dart';
 import 'package:recarga/features/sign_up/view_models/sign_up_viewmodel.dart';
 import 'package:recarga/features/sign_up/widgets/sign_up_screen.dart';
 import 'package:recarga/features/splash/view_models/splash_viewmodel.dart';
@@ -49,11 +46,9 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.login,
       builder: (BuildContext context, GoRouterState state) {
-        final dio = Dio(BaseOptions(baseUrl: ApiConfig.baseUrl));
-        final loginRepository = LoginRepository(dio);
         return LoginScreen(
           viewModel: LoginViewModel(
-            loginRepository: loginRepository,
+            loginRepository: getLoginRepository(),
             onBackPressed: () => context.pop(),
             onForgotPassword: () {},
             onLoginSuccess: () => context.pop(),
@@ -67,11 +62,9 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.signUp,
       builder: (BuildContext context, GoRouterState state) {
-        final dio = Dio(BaseOptions(baseUrl: ApiConfig.baseUrl));
-        final registerRepository = RegisterRepository(dio);
         return SignUpScreen(
           viewModel: SignUpViewModel(
-            registerRepository: registerRepository,
+            registerRepository: getRegisterRepository(),
             onBackPressed: () => context.pop(),
             onRegisterSuccess: () => context.pop(),
           ),

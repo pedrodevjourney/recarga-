@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
-
 import 'package:flutter/foundation.dart';
-import 'package:recarga/core/config/api_config.dart';
+import 'package:recarga/core/network/repository_providers.dart';
 import 'package:recarga/features/sign_up/data/register_repository.dart';
 import 'package:recarga/features/sign_up/data/register_request.dart';
 
@@ -10,9 +8,7 @@ class SignUpViewModel extends ChangeNotifier {
     RegisterRepository? registerRepository,
     VoidCallback? onBackPressed,
     VoidCallback? onRegisterSuccess,
-  }) : _registerRepository =
-           registerRepository ??
-           RegisterRepository(Dio(BaseOptions(baseUrl: ApiConfig.baseUrl))),
+  }) : _registerRepository = registerRepository ?? getRegisterRepository(),
        _onBackPressed = onBackPressed,
        _onRegisterSuccess = onRegisterSuccess;
 

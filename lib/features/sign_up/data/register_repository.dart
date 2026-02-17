@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
-
-import 'package:recarga/core/utils/response_error.dart';
+import 'package:recarga/core/network/http_client.dart';
 import 'package:recarga/features/sign_up/data/register_request.dart';
 import 'package:recarga/features/sign_up/data/user_response.dart';
 
@@ -12,24 +10,19 @@ class RegisterFailure implements Exception {
 }
 
 class RegisterRepository {
-  RegisterRepository(this._dio);
+  RegisterRepository(this._client);
 
-  final Dio _dio;
+  final HttpClient _client;
 
   static const String _path = '/api/auth/register';
 
   Future<UserResponse> register(RegisterRequest request) async {
     try {
-      final response = await _dio.post<Map<String, dynamic>>(
-        _path,
-        data: request.toJson(),
-        options: Options(contentType: Headers.jsonContentType),
-      );
-      final data = response.data;
+      final data = await _client.post(_path, data: request.toJson());
       if (data == null) throw RegisterFailure('');
       return UserResponse.fromJson(data);
-    } on DioException catch (e) {
-      throw RegisterFailure(messageFromResponse(e.response?.data) ?? '');
+    } on ApiException catch (e) {
+      throw RegisterFailure(e.message);
     }
   }
 }
