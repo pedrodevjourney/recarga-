@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import 'package:recarga/core/utils/response_error.dart';
 import 'package:recarga/features/sign_up/data/register_request.dart';
 import 'package:recarga/features/sign_up/data/user_response.dart';
 
@@ -28,11 +29,7 @@ class RegisterRepository {
       if (data == null) throw RegisterFailure('');
       return UserResponse.fromJson(data);
     } on DioException catch (e) {
-      final msg = e.response?.data is Map<String, dynamic>
-          ? (e.response!.data! as Map<String, dynamic>)['message'] as String? ??
-              (e.response!.data! as Map<String, dynamic>)['error'] as String?
-          : null;
-      throw RegisterFailure(msg ?? '');
+      throw RegisterFailure(messageFromResponse(e.response?.data) ?? '');
     }
   }
 }

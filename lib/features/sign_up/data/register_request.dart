@@ -1,4 +1,3 @@
-/// DTO de requisição para POST /register. Alinhado ao backend Java.
 class RegisterRequest {
   const RegisterRequest({
     required this.fullName,

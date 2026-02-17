@@ -1,4 +1,3 @@
-/// DTO de resposta do backend (201 Created). Alinhado ao backend Java.
 class UserResponse {
   const UserResponse({
     required this.id,

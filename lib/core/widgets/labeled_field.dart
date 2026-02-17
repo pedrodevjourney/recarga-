@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recarga/core/theme/app_theme.dart';
 
-/// Campo de formulário com label em cima, seguindo o padrão visual do app.
 class LabeledField extends StatelessWidget {
   const LabeledField({
     super.key,
